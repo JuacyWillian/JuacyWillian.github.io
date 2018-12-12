@@ -117,18 +117,18 @@ $ curl -L http://hbn.link/hb-ipython-startup-script &amp;gt; ~/.ipython/profile_
 &lt;h5&gt;Ativando o ambiente virtual e instalando o kivy  e o buildozer&lt;/h5&gt;
 &lt;p&gt;para ativar o ambiente virtual basta digitar:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ workon nome_do_projeto
+&lt;/pre&gt;&lt;/div&gt;
 
-para desativar digite:
 
-&lt;span class="sb"&gt;```&lt;/span&gt;bash
-$ deactivate
+&lt;p&gt;para desativar digite:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ deactivate
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;vamos instalar o kivy e o buildozer&lt;/strong&gt;
 vamos instalar o kivy no ambiente do nosso projeto, para isso precisamos ativar o ambiente do projeto com &lt;strong&gt;workon nome_do_projeto&lt;/strong&gt;:
 uma vez ativo o terminal mudará e ficará mais ou menos assim:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(nome_do_projeto)user@maquina:~/workspace/nome_do_projeto$
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;nome_do_projeto&lt;span class="o"&gt;)&lt;/span&gt;user@maquina:~/workspace/nome_do_projeto$
 &lt;/pre&gt;&lt;/div&gt;
 
 
