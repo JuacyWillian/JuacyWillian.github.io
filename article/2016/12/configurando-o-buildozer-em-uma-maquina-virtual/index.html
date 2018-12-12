@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>Configurando o buildozer em uma maquina virtual —  - Juacy Willian</title>
+    <link rel="shortcut icon" href="https://juacywillian.github.io/theme/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://juacywillian.github.io/theme/css/skeleton.css" />
+    <link rel="stylesheet" type="text/css" href="https://juacywillian.github.io/theme/css/skeleton.css" />
+    <link rel="stylesheet" type="text/css" href="https://juacywillian.github.io/theme/css/main.css" />
+
+    <link rel="alternate" type="application/atom+xml" title="Juacy Willian — Flux Atom"
+      href="https://juacywillian.github.io/" />
+
+    <!--[if lte IE 8]><script src="https://juacywillian.github.io/theme/js/html5shiv.js"></script><![endif]-->
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+
+
+
+<meta name="author" content="Juacy Willian" />
+<meta name="keywords" content="Kivy, Buildozer" />
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="page-head">
+        <h1>
+          <a href="https://juacywillian.github.io/index.html">Juacy Willian</a>
+        </h1>
+      </header>
+
+      <div class="page-content">
+<article class="post content">
+  <header class="post-header">
+    <time datetime="2016-12-03T10:20:00-02:00" pubdate="pubdate">
+      sáb 03 dezembro 2016
+    </time>
+    <h1>
+      <a rel="bookmark" href="https://juacywillian.github.io/article/2016/12/configurando-o-buildozer-em-uma-maquina-virtual/"
+          title="Link permanente para «Configurando o buildozer em uma maquina virtual»">
+        Configurando o buildozer em uma maquina virtual
+      </a>
+    </h1>
+    <div class="meta">
+      Categoria «<a href="https://juacywillian.github.io/category/python.html">Python</a>» <br>
+      author <a href="https://juacywillian.github.io/author/juacy-willian.html">Juacy Willian</a> <br>
+<br />
+      Tags:  #<a href="https://juacywillian.github.io/tag/kivy.html">Kivy</a> #<a href="https://juacywillian.github.io/tag/buildozer.html">Buildozer</a>    </div>
+  </header>
+  <div class="post-content">
+    <h3>Baixar a iso do lubuntu 16.04 32bit e instalar em uma maquina virtual</h3>
+<p>Eu criei uma VM com:</p>
+<ul>
+<li>RAM 2Gb</li>
+<li>HD 24Gb (criei com tanto espaço porque não gosto de ficar limitado e o meu hd tem 1Tb)</li>
+<li>Video 128Mb</li>
+</ul>
+<h3>Atualizando a VirtualMachine:</h3>
+<div class="highlight"><pre><span></span>sudo apt update &amp;amp;&amp;amp; sudo apt upgrade -y
+</pre></div>
+
+
+<h5>Instalando o PyEnv</h5>
+<p>Como eu não gosto de misturar o python do sistema com o dos meus projetos, por motivos de incompatibilade e estabilidade do sistema, eu prefiro criar ambientes virtuais com o python para cada projeto, e para isso usaremos o PyEnv.</p>
+<p>Seguindo o guia do mestre Henrique Bastos para instalar o pyenv e configurá-lo da melhor maneira possível, iremos utilizar alguns comandos... <a href="https://medium.com/welcome-to-the-django/guia-definitivo-para-organizar-meu-ambiente-python-a16e2479b753">Link para o quia!</a></p>
+<p>Instalação do pyenv, pyenv-virtualenv e pyenv-virtualenvwrapper:</p>
+<p><strong>instalando as dependências do pyenv:</strong></p>
+<div class="highlight"><pre><span></span>$ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev <span class="se">\</span>
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev<span class="se">\</span>
+ libncursesw5-dev xz-utils tk-dev git
+</pre></div>
+
+
+<p><strong>instalando o pyenv:</strong></p>
+<div class="highlight"><pre><span></span>$ curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer <span class="p">|</span> bash
+</pre></div>
+
+
+<p><strong>instalando o pyenv-virtualenvwrapper:</strong></p>
+<div class="highlight"><pre><span></span>$ git clone https://github.com/yyuu/pyenv-virtualenvwrapper.git ~/.pyenv/plugins/pyenv-virtualenvwrapper
+</pre></div>
+
+
+<p>Agora que o pyenv está instalado, vamos precisar editar o arquivo .bashrc, para isso abra o arquivo ~/.bashrc com o seu editor favorito e não mexa em nada por enquanto, vá até o final do arquivo e digite as seguintes linhas:</p>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>~/.pyenv/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span> <span class="nv">WORKON_HOME</span><span class="o">=</span>~/.ve
+<span class="nb">export</span> <span class="nv">PROJECT_HOME</span><span class="o">=</span>~/workspace
+
+<span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>pyenv init -<span class="k">)</span><span class="s2">&quot;</span>
+<span class="c1">#pyenv virtualenvwrapper_lazy</span>
+</pre></div>
+
+
+<p>Salve as mudanças e feche o editor, agora vamos criar os diretórios que mencionamos acima, no terminal digite:</p>
+<div class="highlight"><pre><span></span>mkdir ~/.ve
+mkdir ~/workspace
+</pre></div>
+
+
+<p>Feito isso vamos criar os ambientes base do pyenv.</p>
+<h5>Criando os Ambientes Base:</h5>
+<p>vamos criar os ambientes que o pyenv vai usar como base para algumas bibliotecas em comum com os nossos projetos. No terminal digite:</p>
+<div class="highlight"><pre><span></span>$ pyenv install <span class="m">3</span>.6.0 <span class="o">&amp;&amp;</span> pyenv install <span class="m">2</span>.7.13
+</pre></div>
+
+
+<p>Isso vai demorar um pouquinho, então aproveita para beber uma água ou ir ao banheiro. Quando terminar, vamos instalar algumas bibliotecas auxiliares e configurá-las adequadamente. Use os comandos abaixo:</p>
+<div class="highlight"><pre><span></span>$ pyenv virtualenv <span class="m">3</span>.6.0 jupyter3
+$ pyenv virtualenv <span class="m">3</span>.6.0 tools3
+$ pyenv virtualenv <span class="m">2</span>.7.13 ipython2
+$ pyenv virtualenv <span class="m">2</span>.7.13 tools2
+</pre></div>
+
+
+<p>O comando acima irá criar 4 ambientes virtuais. Agora iremos configurar cada um, com os seguintes comandos:</p>
+<div class="highlight"><pre><span></span>$ pyenv activate jupyter3
+$ pip install jupyter
+$ python -m ipykernel install --user
+$ pyenv deactivate
+
+$ pyenv activate ipython2
+$ pip install ipykernel
+$ python -m ipykernel install --user
+$ pyenv deactivate
+
+$ pyenv activate tools3
+$ pip install youtube-dl gnucash-to-beancount rows
+$ pyenv deactivate
+
+$ pyenv activate tools2
+$ pip install rename s3cmd fabric mercurial
+
+$ pyenv global <span class="m">3</span>.6.0 <span class="m">2</span>.7.13 jupyter3 ipython2 tools3 tools2
+</pre></div>
+
+
+<p>Ótimo, ambientes criados e configurados, agora falta só mais uma coisinha e para isso precisamos criar um profile padrão do iPython e instalar um arquivo de inicialização que criei para fazer essa mágica, então digite o seguinte comando no terminal:</p>
+<div class="highlight"><pre><span></span>$ ipython profile create
+$ curl -L http://hbn.link/hb-ipython-startup-script &gt; ~/.ipython/profile_default/startup/00-venv-sitepackages.py
+</pre></div>
+
+
+<p>Ufa...  finalmente terminamos de configurar o pyenv. Agora abra novamente o .bashrc  e vamos agora retirar a cerquilha da ultima linha que escrevemos.</p>
+<div class="highlight"><pre><span></span><span class="c1">#pyenv virtualenvwrapper_lazy</span>
+</pre></div>
+
+
+<p>vai ficar assim</p>
+<div class="highlight"><pre><span></span>pyenv virtualenvwrapper_lazy
+</pre></div>
+
+
+<p>Feito isso, feche o terminal e abra novamente. Você vai perceber que serão baixados alguns arquivos do virtualenwrapper que estavam faltando, apenas espere e pronto! Já podemos criar o ambiente virtual do nosso projeto.</p>
+<h5>Criando um Ambiente Virtual</h5>
+<p>Para criarmos um ambiente virtual para o nosso projeto com python2 para rodar o Buildozer vamos digitar o comando abaixo no terminal:</p>
+<div class="highlight"><pre><span></span>$ mkproject -p python2 kv27
+</pre></div>
+
+
+<p>Lembrando que o python3 é o padrão, então se quiser criar um ambiente virtual com python3 basta digitar:</p>
+<div class="highlight"><pre><span></span>$ mkproject <span class="o">[</span>nome_do_ambiente<span class="o">]</span>
+</pre></div>
+
+
+<p>Esses comandos acima criarão um ambiente virtual no diretório <strong>~/.ve/nome_do_projeto</strong> e um diretório em <strong>~/workspace/nome_do_projeto</strong> para os arquivos do projeto, e mudaŕa o diretório atual para o mesmo.</p>
+<h5>Ativando o ambiente virtual e instalando o kivy  e o buildozer</h5>
+<p>para ativar o ambiente virtual basta digitar:</p>
+<div class="highlight"><pre><span></span>$ workon nome_do_projeto
+
+para desativar digite:
+
+<span class="sb">```</span>bash
+$ deactivate
+</pre></div>
+
+
+<p><strong>vamos instalar o kivy e o buildozer</strong>
+vamos instalar o kivy no ambiente do nosso projeto, para isso precisamos ativar o ambiente do projeto com <strong>workon nome_do_projeto</strong>:
+uma vez ativo o terminal mudará e ficará mais ou menos assim:</p>
+<div class="highlight"><pre><span></span>(nome_do_projeto)user@maquina:~/workspace/nome_do_projeto$
+</pre></div>
+
+
+<p>Indicando que voce está com o ambiente ativo em <strong>(nome_do_ambiente)</strong> e no diretorio do projeto em <strong>~/workspace/nome_do_projeto$</strong></p>
+<p><strong>Instalando as dependencias do kivy</strong></p>
+<div class="highlight"><pre><span></span>sudo apt-get install -y python-pip build-essential git python python-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>$ pip install cython
+</pre></div>
+
+
+<p><strong>Instalando o Kivy, finalmente</strong></p>
+<div class="highlight"><pre><span></span>$ pip install kivy
+</pre></div>
+
+
+<p><strong>Instalando as dependencias do buildozer</strong></p>
+<div class="highlight"><pre><span></span>$ sudo apt-get install build-essential ccache git libncurses5 libstdc++6 libgtk2.0-0 libpangox-1.0-0 libpangoxft-1.0-0 libidn11 python2.7 python2.7-dev openjdk-8-jdk unzip zlib1g-dev zlib1g
+</pre></div>
+
+
+<p><strong>Instalando o buildozer</strong></p>
+<div class="highlight"><pre><span></span>$ pip install buildozer
+</pre></div>
+
+
+<h4>Dicas</h4>
+<p>O buildozer aqui não funcionou com o python3, apenas com o python 2, então eu sugiro que usem o py2 para desenvolver o seu app ou escreva codigo compativel com python 2 e 3</p>
+  </div>
+  <footer class="post-footer">
+    <div class="meta">
+      Categoria «<a href="https://juacywillian.github.io/category/python.html">Python</a>»<br>
+      author <a href="https://juacywillian.github.io/author/juacy-willian.html">Juacy Willian</a><br />
+      Tags:  #<a href="https://juacywillian.github.io/tag/kivy.html">Kivy</a> #<a href="https://juacywillian.github.io/tag/buildozer.html">Buildozer</a>    </div>
+
+    <a href="http://sharetodiaspora.github.io/?title=Configurando o buildozer em uma maquina virtual&url=https://juacywillian.github.io/article/2016/12/configurando-o-buildozer-em-uma-maquina-virtual/"
+        target="_blank">
+      <img src="https://juacywillian.github.io/theme/img/diaspora.png"
+        style="border: 0px solid;display: inline-block;vertical-align: middle;" />
+        Diaspora*
+      </a>
+
+    | <a title="Facebook"
+        href="https://www.facebook.com/sharer.php?u=https://juacywillian.github.io/article/2016/12/configurando-o-buildozer-em-uma-maquina-virtual/">
+      <img src="https://juacywillian.github.io/theme/img/fb.png" alt="Facebook"
+        style="border:0;display: inline-block;vertical-align: middle;" />
+        Facebook
+      </a>
+    | <a href="https://twitter.com/share" data-url="https://juacywillian.github.io/article/2016/12/configurando-o-buildozer-em-uma-maquina-virtual/"
+        data-hashtags="Kivy, Buildozer">
+      <img src="https://juacywillian.github.io/theme/img/twitter.png" alt="Twitter"
+        style="border:0;display: inline-block;vertical-align: middle;" />
+        Twitter
+      </a>
+
+
+
+  </footer>
+
+</article>
+      </div>
+
+<aside class="page-sidebar">
+  <nav class="widget">
+    <h3>Site</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit, purus fusce per suscipit congue eget, urna vulputate quisque nullam cursus laoreet.</p>
+
+
+  </nav>
+  <!--<ul>-->
+    <!--<li><a href="https://juacywillian.github.io">Accueil</a></li>-->
+    <!---->
+
+
+
+<nav class="widget">
+    <h3>Menu</h3>
+    <ul>
+
+            <li >
+                <a href="https://juacywillian.github.io/page/about">
+                    About
+                </a>
+            </li>
+
+    </ul>
+</nav>
+<nav class="widget">
+  <h3>Linguagens</h3>
+  <ul>
+      <li>
+        <a href="https://juacywillian.github.io/lang/pt-br" rel="alternate">
+          Português do Brasil
+        </a>
+      </li>
+        <ul>
+        </ul>
+
+      <li>
+        <a href="https://juacywillian.github.io/lang/en" rel="alternate">
+          English
+        </a>
+      </li>
+
+  </ul>
+</nav>
+<nav class="widget">
+        <h3>Catégories</h3>
+        <ul>
+          <li><a href="https://juacywillian.github.io/category/python.html">Python</a></li>
+        </ul>
+</nav>
+<nav class="widget">
+  <h3>Social</h3>
+    <ul>
+      <li><a href="https://twitter.com/juacywillian" target="blank">twitter</a></li>
+      <li><a href="https://juacywillian.github.io/" rel="alternate">Flux Atom</a></li>
+    </ul>
+</nav>
+<nav class="widget">
+  <h3>Tags</h3>
+    <ul class="tagcloud">
+        <li class="tag-4"><a href="/tag/Buildozer.html">Buildozer</a></li>
+        <li class="tag-4"><a href="/tag/Kivy.html">Kivy</a></li>
+    </ul>
+</nav>
+<nav class="widget">
+    <h3>Links</h3>
+    <ul>
+          <li><a href="http://getpelican.com/" target="blank">Pelican</a></li>
+          <li><a href="http://python.org/" target="blank">Python.org</a></li>
+          <li><a href="http://jinja.pocoo.org/" target="blank">Jinja2</a></li>
+    </ul>
+</nav>
+</aside>
+      <footer class="page-footer">
+        <p> 2018</p>
+
+      </footer>
+    </div>
+  </body>
+
+</html>
