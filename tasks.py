@@ -3,7 +3,7 @@
 import os
 import shutil
 import sys
-import datetime
+from datetime import datetime
 
 from invoke import task
 from invoke.util import cd
@@ -13,8 +13,8 @@ CONFIG = {
     # Local path configuration (can be absolute or relative to tasks.py)
     'deploy_path': 'output',
     # Github Pages configuration
-    'github_pages_branch': 'gh_pages',
-    'commit_message': "'Publish site on {}'".format(datetime.date.today().isoformat()),
+    'github_pages_branch': 'master',
+    'commit_message': f'"Publish site on {datetime.now().isoformat()}"',
     # Port for `serve`
     'port': 8000,
 }
