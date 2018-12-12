@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Juacy Willian</title><link href="https://juacywillian.github.io/" rel="alternate"></link><link href="https://juacywillian.github.io/feeds/all.atom.xml" rel="self"></link><id>https://juacywillian.github.io/</id><updated>2016-12-03T10:20:00-02:00</updated><subtitle>Lorem ipsum dolor sit amet consectetur adipiscing elit, purus fusce per suscipit congue eget, urna vulputate quisque nullam cursus laoreet.</subtitle><entry><title>Configurando o buildozer em uma maquina virtual</title><link href="https://juacywillian.github.io/article/2016/12/configurando-o-buildozer-em-uma-maquina-virtual/" rel="alternate"></link><published>2016-12-03T10:20:00-02:00</published><updated>2016-12-03T10:20:00-02:00</updated><author><name>Juacy Willian</name></author><id>tag:juacywillian.github.io,2016-12-03:/article/2016/12/configurando-o-buildozer-em-uma-maquina-virtual/</id><summary type="html">&lt;p&gt;Neste artigo eu ensino como prepoarar o ambiente da uma maquina virtual e instalar o buildozer para empacotar os seus aplicativos kivy em instaladores android (.apk).&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Baixar a iso do lubuntu 16.04 32bit e instalar em uma maquina virtual&lt;/h3&gt;
+&lt;p&gt;Eu criei uma VM com:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RAM 2Gb&lt;/li&gt;
+&lt;li&gt;HD 24Gb (criei com tanto espaço porque não gosto de ficar limitado e o meu hd tem 1Tb)&lt;/li&gt;
+&lt;li&gt;Video 128Mb&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Atualizando a VirtualMachine:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt update &amp;amp;amp;&amp;amp;amp; sudo apt upgrade -y
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Instalando o PyEnv&lt;/h5&gt;
+&lt;p&gt;Como eu não gosto de misturar o python do sistema com o dos meus projetos, por motivos de incompatibilade e estabilidade do sistema, eu prefiro criar ambientes virtuais com o python para cada projeto, e para isso usaremos o PyEnv.&lt;/p&gt;
+&lt;p&gt;Seguindo o guia do mestre Henrique Bastos para instalar o pyenv e configurá-lo da melhor maneira possível, iremos utilizar alguns comandos... &lt;a href="https://medium.com/welcome-to-the-django/guia-definitivo-para-organizar-meu-ambiente-python-a16e2479b753"&gt;Link para o quia!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Instalação do pyenv, pyenv-virtualenv e pyenv-virtualenvwrapper:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;instalando as dependências do pyenv:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev &lt;span class="se"&gt;\&lt;/span&gt;
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev&lt;span class="se"&gt;\&lt;/span&gt;
+ libncursesw5-dev xz-utils tk-dev git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;instalando o pyenv:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer &lt;span class="p"&gt;|&lt;/span&gt; bash
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;instalando o pyenv-virtualenvwrapper:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git clone https://github.com/yyuu/pyenv-virtualenvwrapper.git ~/.pyenv/plugins/pyenv-virtualenvwrapper
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Agora que o pyenv está instalado, vamos precisar editar o arquivo .bashrc, para isso abra o arquivo ~/.bashrc com o seu editor favorito e não mexa em nada por enquanto, vá até o final do arquivo e digite as seguintes linhas:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;~/.pyenv/bin:&lt;span class="nv"&gt;$PATH&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;WORKON_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;~/.ve
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PROJECT_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;~/workspace
+
+&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;pyenv init -&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#pyenv virtualenvwrapper_lazy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Salve as mudanças e feche o editor, agora vamos criar os diretórios que mencionamos acima, no terminal digite:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir ~/.ve
+mkdir ~/workspace
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Feito isso vamos criar os ambientes base do pyenv.&lt;/p&gt;
+&lt;h5&gt;Criando os Ambientes Base:&lt;/h5&gt;
+&lt;p&gt;vamos criar os ambientes que o pyenv vai usar como base para algumas bibliotecas em comum com os nossos projetos. No terminal digite:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pyenv install &lt;span class="m"&gt;3&lt;/span&gt;.6.0 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; pyenv install &lt;span class="m"&gt;2&lt;/span&gt;.7.13
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Isso vai demorar um pouquinho, então aproveita para beber uma água ou ir ao banheiro. Quando terminar, vamos instalar algumas bibliotecas auxiliares e configurá-las adequadamente. Use os comandos abaixo:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pyenv virtualenv &lt;span class="m"&gt;3&lt;/span&gt;.6.0 jupyter3
+$ pyenv virtualenv &lt;span class="m"&gt;3&lt;/span&gt;.6.0 tools3
+$ pyenv virtualenv &lt;span class="m"&gt;2&lt;/span&gt;.7.13 ipython2
+$ pyenv virtualenv &lt;span class="m"&gt;2&lt;/span&gt;.7.13 tools2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;O comando acima irá criar 4 ambientes virtuais. Agora iremos configurar cada um, com os seguintes comandos:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pyenv activate jupyter3
+$ pip install jupyter
+$ python -m ipykernel install --user
+$ pyenv deactivate
+
+$ pyenv activate ipython2
+$ pip install ipykernel
+$ python -m ipykernel install --user
+$ pyenv deactivate
+
+$ pyenv activate tools3
+$ pip install youtube-dl gnucash-to-beancount rows
+$ pyenv deactivate
+
+$ pyenv activate tools2
+$ pip install rename s3cmd fabric mercurial
+
+$ pyenv global &lt;span class="m"&gt;3&lt;/span&gt;.6.0 &lt;span class="m"&gt;2&lt;/span&gt;.7.13 jupyter3 ipython2 tools3 tools2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ótimo, ambientes criados e configurados, agora falta só mais uma coisinha e para isso precisamos criar um profile padrão do iPython e instalar um arquivo de inicialização que criei para fazer essa mágica, então digite o seguinte comando no terminal:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ipython profile create
+$ curl -L http://hbn.link/hb-ipython-startup-script &amp;gt; ~/.ipython/profile_default/startup/00-venv-sitepackages.py
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ufa...  finalmente terminamos de configurar o pyenv. Agora abra novamente o .bashrc  e vamos agora retirar a cerquilha da ultima linha que escrevemos.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#pyenv virtualenvwrapper_lazy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;vai ficar assim&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pyenv virtualenvwrapper_lazy
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Feito isso, feche o terminal e abra novamente. Você vai perceber que serão baixados alguns arquivos do virtualenwrapper que estavam faltando, apenas espere e pronto! Já podemos criar o ambiente virtual do nosso projeto.&lt;/p&gt;
+&lt;h5&gt;Criando um Ambiente Virtual&lt;/h5&gt;
+&lt;p&gt;Para criarmos um ambiente virtual para o nosso projeto com python2 para rodar o Buildozer vamos digitar o comando abaixo no terminal:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ mkproject -p python2 kv27
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Lembrando que o python3 é o padrão, então se quiser criar um ambiente virtual com python3 basta digitar:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ mkproject &lt;span class="o"&gt;[&lt;/span&gt;nome_do_ambiente&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Esses comandos acima criarão um ambiente virtual no diretório &lt;strong&gt;~/.ve/nome_do_projeto&lt;/strong&gt; e um diretório em &lt;strong&gt;~/workspace/nome_do_projeto&lt;/strong&gt; para os arquivos do projeto, e mudaŕa o diretório atual para o mesmo.&lt;/p&gt;
+&lt;h5&gt;Ativando o ambiente virtual e instalando o kivy  e o buildozer&lt;/h5&gt;
+&lt;p&gt;para ativar o ambiente virtual basta digitar:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ workon nome_do_projeto
+
+para desativar digite:
+
+&lt;span class="sb"&gt;```&lt;/span&gt;bash
+$ deactivate
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;vamos instalar o kivy e o buildozer&lt;/strong&gt;
+vamos instalar o kivy no ambiente do nosso projeto, para isso precisamos ativar o ambiente do projeto com &lt;strong&gt;workon nome_do_projeto&lt;/strong&gt;:
+uma vez ativo o terminal mudará e ficará mais ou menos assim:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(nome_do_projeto)user@maquina:~/workspace/nome_do_projeto$
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Indicando que voce está com o ambiente ativo em &lt;strong&gt;(nome_do_ambiente)&lt;/strong&gt; e no diretorio do projeto em &lt;strong&gt;~/workspace/nome_do_projeto$&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Instalando as dependencias do kivy&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install -y python-pip build-essential git python python-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install cython
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Instalando o Kivy, finalmente&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install kivy
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Instalando as dependencias do buildozer&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install build-essential ccache git libncurses5 libstdc++6 libgtk2.0-0 libpangox-1.0-0 libpangoxft-1.0-0 libidn11 python2.7 python2.7-dev openjdk-8-jdk unzip zlib1g-dev zlib1g
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Instalando o buildozer&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pip install buildozer
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Dicas&lt;/h4&gt;
+&lt;p&gt;O buildozer aqui não funcionou com o python3, apenas com o python 2, então eu sugiro que usem o py2 para desenvolver o seu app ou escreva codigo compativel com python 2 e 3&lt;/p&gt;</content><category term="Kivy"></category><category term="Buildozer"></category></entry></feed>
