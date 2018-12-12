@@ -1,0 +1,8 @@
+<nav class="widget">
+    <h3>Pages</h3>
+    <ul>
+        {% for p in pages %}
+          <li><a href="{{ p.url|e }}">{{ p.title }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

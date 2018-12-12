@@ -1,0 +1,12 @@
+<nav class="widget">
+  <h3>Social</h3>
+    <ul>
+      {% for name, url in SOCIAL %}
+      <li><a href="{{ url|e }}" target="blank">{{ name }}</a></li>
+      {% endfor %}
+      <li><a href="{{ SITEURL }}/{{ FEED_ATOM }}" rel="alternate">Flux Atom</a></li>
+      {% if FEED_RSS %}
+      <li><a href="{{ SITEURL }}/{{ FEED_RSS }}" rel="alternate">Flux RSS</a></li>
+      {% endif %}
+    </ul>
+</nav>

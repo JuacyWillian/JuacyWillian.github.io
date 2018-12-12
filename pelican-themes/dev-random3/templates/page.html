@@ -1,0 +1,19 @@
+{% set DEFAULT_LANG = page.lang %}
+{% extends "base.html" %}
+
+{% block title %}{{ super() }} — {{ page.url }}{% endblock title %}
+
+{%- block content %}
+    <section class="content">
+      <h1>{{ page.title }}</h1>
+      {% if page.translations %}
+            &nbsp;&nbsp; Idiomas:
+            <a href="{{ SITEURL }}/{{ page.url }}">{{ page.lang or DEFAULT_LANG }}</a>
+              {% for translation in page.translations %}
+            <a href="{{ SITEURL }}/{{ translation.url }}">{{ translation.lang }}</a>
+              {% endfor %}
+            {% endif %}
+      
+      {{ page.content }}
+    </section>
+{% endblock content -%}
