@@ -3,6 +3,7 @@ Date: 2016-12-03 10:20
 Category: Python
 Tags: Kivy, Buildozer
 Authors: Juacy Willian
+Lang: pt-br
 Summary: Neste artigo eu ensino como prepoarar o ambiente da uma maquina virtual e instalar o buildozer para empacotar os seus aplicativos kivy em instaladores android (.apk).
 
 
